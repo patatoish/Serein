@@ -417,6 +417,9 @@ mod tests {
 		let null_avatar = br#"{"user":{"id":"2","avatar":null},"status":"online"}"#;
 		let update_null = decode(null_avatar).unwrap();
 		assert_eq!(update_null.avatar, Patch::Null);
+		let invalid_avatar = br#"{"user":{"id":"2","avatar":"../../invalid"},"status":"online"}"#;
+		let update_invalid = decode(invalid_avatar).unwrap();
+		assert_eq!(update_invalid.avatar, Patch::Absent);
 	}
 
 	#[test]

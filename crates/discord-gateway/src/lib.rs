@@ -3300,7 +3300,11 @@ mod member_tests {
 			list_id: "everyone".into(),
 			ranges: vec![[0, 99]],
 		});
-		list.update(decode(br#"{"guild_id":"1","id":"everyone","member_count":1,"ops":[{"op":"SYNC","range":[0,99],"items":[{"member":{"user":{"id":"3","username":"Synthetic"},"presence":{"status":"online"}}}]}]}"#).unwrap()).unwrap();
+		list.update(decode(br#"{"guild_id":"1","id":"everyone","member_count":1,"ops":[{"op":"SYNC","range":[0,99],"items":[{"member":{"user":{"id":"3","username":"Synthetic","avatar":"fedcba9876543210fedcba9876543210"},"presence":{"status":"online"}}}]}]}"#).unwrap()).unwrap();
+		assert_eq!(
+			person(&list, 0).user.avatar.as_deref(),
+			Some("fedcba9876543210fedcba9876543210")
+		);
 		let hash = "0123456789abcdef0123456789abcdef".to_string();
 		list.presence(
 			discord_protocol::presence::PresenceUpdate {
